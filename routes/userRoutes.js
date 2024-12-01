@@ -5,7 +5,7 @@ import { ObjectId } from "mongodb";
 const userRoute = express.Router();
 
 userRoute.get("/", async (req, res) => {
-  const collection = db.collection("users");
+  const collection = db.collection("todo");
   const result = await collection.find({}).limit(30).toArray();
   res.status(200).json(result);
 });
@@ -13,7 +13,7 @@ userRoute.get("/", async (req, res) => {
 userRoute.post("/create", async (req, res) => {
   try {
     const user = req.body;
-    const collection = db.collection("users");
+    const collection = db.collection("todo");
 
     const result = await collection.insertOne(user);
 
@@ -26,7 +26,7 @@ userRoute.post("/create", async (req, res) => {
 userRoute.get("/:id", async (req, res) => {
   try {
     const userId = new ObjectId(req.params.id);
-    const collection = db.collection("users");
+    const collection = db.collection("todo");
 
     const result = await collection.findOne(userId);
     res.status(200).json(result);
@@ -35,10 +35,10 @@ userRoute.get("/:id", async (req, res) => {
   }
 });
 
-userRoute.patch("/update/:id", async (req, res) => {
+userRoute.put("/update/:id", async (req, res) => {
   try {
     const userId = new ObjectId(req.params.id);
-    const collection = db.collection("users");
+    const collection = db.collection("todo");
     const userData = req.body;
 
     const result = await collection.updateOne(
@@ -57,7 +57,7 @@ userRoute.patch("/update/:id", async (req, res) => {
 userRoute.delete("/delete/:id", async (req, res) => {
   try {
     const userId = new ObjectId(req.params.id);
-    const collection = db.collection("users");
+    const collection = db.collection("todo");
 
     const result = await collection.deleteOne({ _id: userId });
 
